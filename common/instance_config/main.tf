@@ -15,6 +15,14 @@ resource "tls_private_key" "rsa_hostkeys" {
   rsa_bits  = 4096
 }
 
+resource "local_file" "sshkey" {
+  count                = var.generate_ssh_key ? 1 : 0
+  sensitive_content    = tls_private_key.ssh[0].private_key_pem
+  filename             = "sshkey.pem"
+  file_permission      = "0600"
+  directory_permission = "0600"
+}
+
 locals {
   ssh_key = {
     public  = try("${chomp(tls_private_key.ssh[0].public_key_openssh)} terraform@localhost", null)

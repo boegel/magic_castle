@@ -66,7 +66,7 @@ resource "aws_placement_group" "efa_group" {
 
 resource "aws_key_pair" "key" {
   key_name   = "${var.cluster_name}-key"
-  public_key = var.public_keys[0]
+  public_key = var.generate_ssh_key ? module.instance_config.ssh_key.public : var.public_keys[0]
 }
 
 # Instances

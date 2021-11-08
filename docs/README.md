@@ -773,11 +773,16 @@ defined as a map of fives key-value pairs : `name`, `from_port`, `to_port`, `ip_
 
 **default_value**: `false`
 
-If true, Terraform will generate an ssh key pair that would then be used when copying file with Terraform
-file-provisioner. The public key will be added to the sudoer account authorized keys.
+If true, Terraform will generate an ssh key pair that will be used to copy
+files with Terraform file-provisioner. The public key will be added to the
+cluster sudoer account authorized keys.
 
-This parameter is useful when Terraform does not have access to one of the private key associated with the
-public keys provided in `public_keys`.
+This parameter is useful when Terraform does not have access to any of the
+private keys associated with the public keys provided in `public_keys`, or
+when `public_keys` is empty.
+
+A file containing a copy of the private key is created next to the `main.tf`
+after the apply.
 
 **Post build modification effect**:
 - `false` -> `true`: will cause Terraform failure.
